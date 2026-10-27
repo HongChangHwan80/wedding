@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>홍창환 ♥ 응옥하인 결혼합니다 | Chang Hwan & Ngọc Hạnh</title>
+  
+  <!-- 오픈그래프 (카카오톡, 잘로 공유 시 썸네일 영역 - 추후 웨딩사진 경로로 변경하세요) -->
+  <meta property="og:title" content="홍창환 ♥ 응옥하인 결혼식에 초대합니다 (14.11.2026)" />
+  <meta property="og:description" content="2026년 11월 14일 토요일 오후 4시 | Nhà Văn Hóa Phố Yên, Mê Linh, Hà Nội" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: 한국어/베트남어/영문 명조 및 필기체 조합 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+  <!-- Tone.js (기본 내장 베트남 웨딩 스타일 어쿠스틱 멜로디 생성용 - 실제 mp3 넣기 전에도 즉시 작동) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+  <style>
+    :root {
+      --bg-ivory: #FAF8F5;
+      --bg-card: #F3EFEA;
+      --text-main: #2C2623;
+      --text-sub: #7A6F68;
+      --accent-rose: #8C584C;
+      --accent-gold: #C5A880;
+    }
+
+    body {
+      background-color: #EAE4DC;
+      color: var(--text-main);
+      font-family: 'Noto Serif KR', 'Noto Serif', serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .font-eng {
+      font-family: 'Cormorant Garamond', 'Noto Serif', serif;
+    }
+
+    .font-script {
+      font-family: 'Alex Brush', cursive;
+    }
+
+    /* 모바일 청첩장 표준 컨테이너 (최대 430px) */
+    .wedding-container {
+      max-width: 430px;
+      margin: 0 auto;
+      background-color: var(--bg-ivory);
+      min-height: 100vh;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 종이 질감 오버레이 */
+    .paper-texture {
+      background-image: radial-gradient(rgba(140, 88, 76, 0.04) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* 스크롤 페이드인 애니메이션 */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 회전하는 음표/LP 아이콘 */
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .spin-bgm {
+      animation: spinSlow 6s linear infinite;
+    }
+
+    /* 부드러운 부유 효과 */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    .float-slow {
+      animation: floatSlow 3.5s ease-in-out infinite;
+    }
+
+    /* 꽃잎 떨어지는 캔버스 */
+    #petal-canvas {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 30;
+    }
+
+    /* 커스텀 스크롤바 숨기기 */
+    ::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+
+    /* 아치형 프레임 */
+    .arch-frame {
+      border-top-left-radius: 220px;
+      border-top-right-radius: 220px;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+    }
+
+    /* 원라인 아트 드로잉 효과 */
+    .line-art-path {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: drawLine 3.5s ease-out forwards;
+    }
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       [1] 실제 음악 파일 연결 영역 (GitHub Pages에 올릴 때 주석 해제 후 파일명만 맞추세요)
+       기본 상태에서는 베트남 인기 웨딩송 'Hơn Cả Yêu / Ngày Đầu Tiên' 스타일의
+       감성적인 어쿠스틱 피아노&오르골 멜로디가 자동 연주되며, 내 MP3 파일도 바로 연결됩니다.
+  ========================================================================== -->
+  <audio id="custom-bgm-audio" loop preload="auto">
+    <!-- TODO: 깃허브 저장소에 bgm.mp3 파일을 넣으신 후 아래 src="bgm.mp3" 를 유지하시면 됩니다 -->
+    <source src="bgm.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- 꽃잎 효과 캔버스 -->
+  <canvas id="petal-canvas"></canvas>
+
+  <!-- =========================================================================
+       [2] 인트로 커버 오버레이 (모바일 브라우저 BGM 자동재생 제한 해제용)
+  ========================================================================== -->
+  <div id="intro-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-[#EAE4DC] transition-opacity duration-1000">
+    <div class="w-full max-w-[430px] h-full bg-[#FAF8F5] flex flex-col items-center justify-between py-12 px-8 text-center relative overflow-hidden shadow-2xl">
+      
+      <!-- 상단 장식 문구 (종이 청첩장 좌측 곡선 문구 반영) -->
+      <div class="mt-4">
+        <p class="font-eng italic text-xs tracking-[0.2em] text-[#8C584C] uppercase mb-2">Wedding Invitation</p>
+        <p class="text-[11px] text-[#7A6F68] italic px-4 leading-relaxed">
+          “Giây phút em đồng ý là khoảnh khắc ghi dấu 1 đời...”
+        </p>
+        <p class="text-[11px] text-[#9A8F88] mt-0.5" data-i18n="intro_quote_kr">
+          “당신이 승낙한 그 순간은 평생을 새긴 순간입니다...”
+        </p>
+      </div>
+
+      <!-- 중앙 종이 청첩장 원라인 아트 (두 얼굴 실루엣 재현) -->
+      <div class="my-auto flex flex-col items-center">
+        <div class="w-40 h-52 flex items-center justify-center mb-6">
+          <svg viewBox="0 0 200 280" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- 종이 청첩장의 감각적인 원라인 커플 아트를 모티브로 한 브라운 라인 일러스트 -->
+            <path class="line-art-path" d="M75 30 C75 65, 65 85, 58 100 C54 108, 65 112, 68 116 C63 124, 68 130, 64 136 C68 142, 62 155, 78 162 C95 168, 115 152, 125 130 C135 105, 130 65, 105 55 C85 48, 78 72, 92 85 C106 98, 145 88, 148 115 C150 140, 120 155, 112 175 C104 195, 128 215, 115 240 C102 262, 65 258, 58 232 C50 205, 72 178, 92 182 C108 185, 118 200, 126 205 C132 208, 124 215, 128 220 C124 226, 130 232, 125 238 C120 245, 102 252, 88 248" stroke="#7A3E32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="line-art-path" d="M84 95 C90 98, 96 95, 99 92" stroke="#7A3E32" stroke-width="1.5" stroke-linecap="round"/>
+            <path class="line-art-path" d="M104 198 C108 195, 114 196, 117 200" stroke="#7A3E32" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="100" cy="145" r="2.5" fill="#8C584C" opacity="0.6"/>
+          </svg>
+        </div>
+
+        <p class="font-eng text-xs tracking-[0.25em] text-[#8C584C] uppercase mb-2">Together with their families</p>
+        <h1 class="font-script text-4xl text-[#2C2623] mb-1">Ngọc Hạnh &amp; Chang Hwan</h1>
+        <p class="text-sm tracking-[0.2em] text-[#5C534E] font-medium mt-1">응옥 하인 &amp; 홍창환</p>
+        <p class="font-eng text-sm tracking-[0.18em] text-[#8C584C] mt-3">14 . 11 . 2026 | SAT 16:00</p>
+      </div>
+
+      <!-- 하단 열기 버튼 (터치 시 BGM 시작 + 본문 진입) -->
+      <div class="w-full flex flex-col items-center gap-3 mb-2">
+        <button id="open-invitation-btn" class="float-slow w-full max-w-[270px] py-3.5 px-6 rounded-full bg-[#7A3E32] text-white text-xs tracking-widest flex items-center justify-center gap-2.5 shadow-lg hover:bg-[#653127] active:scale-95 transition-all">
+          <svg class="w-4 h-4 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+          </svg>
+          <span>음악과 함께 청첩장 열기</span>
+        </button>
+        <button id="open-muted-btn" class="text-[11px] text-[#8E837B] underline underline-offset-4 hover:text-[#2C2623] transition">
+          Chạm để mở thiệp (음소거로 열기)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       [3] 메인 모바일 청첩장 컨테이너
+  ========================================================================== -->
+  <div class="wedding-container paper-texture">
+
+    <!-- 상단 고정 컨트롤 바: 한/베 언어 토글 + BGM 제어 & 선곡 -->
+    <header class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] z-40 px-4 py-3 flex items-center justify-between pointer-events-none">
+      
+      <!-- 한국어 / 베트남어 / 병기 전환 스위치 -->
+      <div class="pointer-events-auto bg-white/85 backdrop-blur-md border border-[#E5DEC9] rounded-full p-1 flex items-center gap-0.5 shadow-sm text-[11px]">
+        <button onclick="setLanguage('BOTH')" id="lang-btn-BOTH" class="px-2.5 py-1 rounded-full bg-[#7A3E32] text-white font-medium transition">KR+VN</button>
+        <button onclick="setLanguage('KR')" id="lang-btn-KR" class="px-2.5 py-1 rounded-full text-[#6E645E] hover:text-[#2C2623] transition">한국어</button>
+        <button onclick="setLanguage('VN')" id="lang-btn-VN" class="px-2.5 py-1 rounded-full text-[#6E645E] hover:text-[#2C2623] transition">Tiếng Việt</button>
+      </div>
+
+      <!-- 우측 BGM 버튼 & 선곡 모달 버튼 -->
+      <div class="pointer-events-auto flex items-center gap-1.5">
+        <button onclick="openBgmModal()" class="bg-white/85 backdrop-blur-md border border-[#E5DEC9] rounded-full px-2.5 py-1.5 shadow-sm text-[11px] text-[#5C534E] flex items-center gap-1 hover:bg-white transition" title="베트남 웨딩 BGM 선곡">
+          <span id="current-song-badge" class="truncate max-w-[95px]">🎵 Hơn Cả Yêu</span>
+        </button>
+        <button id="bgm-toggle-btn" onclick="toggleBgm()" class="w-8 h-8 rounded-full bg-white/90 backdrop-blur-md border border-[#E5DEC9] shadow-sm flex items-center justify-center text-[#7A3E32] hover:scale-105 transition" aria-label="배경음악 켜기/끄기">
+          <svg id="bgm-icon-playing" class="w-4 h-4 spin-bgm hidden" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
+          </svg>
+          <svg id="bgm-icon-paused" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- =========================================================================
+         SECTION 1: HERO (메인 사진 또는 메인 숏폼 영상 영역)
+    ========================================================================== -->
+    <section class="relative pt-16 pb-10 px-6 text-center">
+      
+      <!-- 종이 청첩장 날짜 타이포그래피 & 타이틀 -->
+      <div class="mb-5">
+        <p class="font-eng text-xs tracking-[0.3em] text-[#8C584C] uppercase">Lễ Vu Quy • Wedding Day</p>
+        <div class="flex items-center justify-center gap-3 mt-1">
+          <span class="font-eng text-3xl font-medium tracking-widest text-[#2C2623]">14 . 11 . 26</span>
+        </div>
+      </div>
+
+      <!-- 메인 비주얼 아치 프레임 (사진 또는 짧은 영상을 넣는 핵심 슬롯) -->
+      <div class="relative mx-auto w-full aspect-[3/4] arch-frame overflow-hidden shadow-xl bg-[#E8E0D5] group border-4 border-white">
+        
+        <!-- 
+          [TODO: 메인 웨딩 사진 교체 위치]
+          웨딩 촬영 원본을 받으시면 src="images/main.jpg" 로 바꾸시면 됩니다.
+        -->
+        <img 
+          id="hero-image-preview"
+          src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85" 
+          alt="Main Wedding Photo"
+          class="w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-105"
+          onerror="this.src='https://placehold.co/800x1066/E8E0D5/7A3E32?text=Main+Wedding+Photo'"
+        />
+
+        <!-- 메인 비디오 미리보기 (사용자가 짧은 영상을 넣을 경우 활성화) -->
+        <video 
+          id="hero-video-preview" 
+          class="w-full h-full object-cover hidden" 
+          autoplay loop muted playsinline
+        ></video>
+
+        <!-- 그라데이션 & 커플 영문/한글 시그니처 오버레이 -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent flex flex-col justify-end p-6 text-white">
+          <p class="font-script text-3xl sm:text-4xl drop-shadow-sm mb-1">Ngọc Hạnh &amp; Chang Hwan</p>
+          <p class="text-xs tracking-[0.25em] opacity-90 font-light">응옥 하인 ♥ 홍창환</p>
+          <div class="w-8 h-[1px] bg-white/60 mx-auto my-3"></div>
+          <p class="text-[11px] tracking-wider opacity-85">
+            2026. 11. 14. SAT 16:00<br/>
+            NHÀ VĂN HÓA PHỐ YÊN, HÀ NỘI
+          </p>
+        </div>
+
+        <!-- 테스트용 내 사진/영상 즉시 넣어보기 플로팅 배지 (미리보기 전용) -->
+        <label class="preview-control absolute top-4 right-4 bg-black/55 backdrop-blur-md text-white text-[11px] px-3 py-1.5 rounded-full cursor-pointer hover:bg-black/75 transition flex items-center gap-1.5 shadow">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span>메인 사진/영상 테스트</span>
+          <input type="file" accept="image/*,video/*" class="hidden" onchange="handleMediaUpload(event, 'hero')" />
+        </label>
+      </div>
+
+      <!-- 종이 청첩장 감성 한 줄 문구 -->
+      <div class="mt-7 px-2">
+        <p class="font-eng italic text-sm text-[#7A3E32] leading-relaxed">
+          “Giây phút em đồng ý là khoảnh khắc ghi dấu 1 đời...”
+        </p>
+        <p class="text-xs text-[#7A6F68] mt-1 lang-kr">
+          당신이 승낙한 그 순간은 평생을 새긴 순간입니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- 구분선 -->
+    <div class="flex justify-center items-center gap-3 py-2 opacity-50">
+      <span class="w-12 h-[1px] bg-[#C5A880]"></span>
+      <span class="text-[#8C584C] text-xs">♥</span>
+      <span class="w-12 h-[1px] bg-[#C5A880]"></span>
+    </div>
+
+    <!-- =========================================================================
+         SECTION 2: 최소한의 초대 문구 & 양가 부모님(혼주) 성함 (종이 청첩장 내용 100% 반영)
+    ========================================================================== -->
+    <section class="reveal py-12 px-7 text-center">
+      
+      <!-- 종이 청첩장의 미니 원라인 아트 심볼 -->
+      <div class="w-16 h-20 mx-auto mb-4 opacity-85">
+        <svg viewBox="0 0 200 280" class="w-full h-full" fill="none">
+          <path d="M75 30 C75 65, 65 85, 58 100 C54 108, 65 112, 68 116 C63 124, 68 130, 64 136 C68 142, 62 155, 78 162 C95 168, 115 152, 125 130 C135 105, 130 65, 105 55 C85 48, 78 72, 92 85 C106 98, 145 88, 148 115 C150 140, 120 155, 112 175 C104 195, 128 215, 115 240 C102 262, 65 258, 58 232 C50 205, 72 178, 92 182 C108 185, 118 200, 126 205 C132 208, 124 215, 128 220 C124 226, 130 232, 125 238 C120 245, 102 252, 88 248" stroke="#7A3E32" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <p class="font-eng text-xs tracking-[0.28em] text-[#8C584C] uppercase mb-3">Invitation</p>
+      
+      <!-- 짧고 여운 있는 초대 메시지 -->
+      <div class="space-y-2 text-[13px] leading-7 text-[#3E3733] mb-9">
+        <p class="lang-kr">
+          서로 다른 곳에서 자라온 두 사람이<br/>
+          사랑으로 하나 되는 소중한 날입니다.<br/>
+          귀한 걸음 하시어 축복해 주시면 감사하겠습니다.
+        </p>
+        <p class="lang-vn text-xs text-[#6E645E] italic leading-relaxed">
+          Trân trọng kính mời Quý khách đến dự bữa cơm thân mật<br/>
+          chung vui cùng gia đình chúng tôi.<br/>
+          Sự hiện diện của Quý khách là niềm vinh dự cho gia đình chúng tôi.
+        </p>
+      </div>
+
+      <!-- 양가 혼주 및 신랑/신부 성함 카드 (종이 청첩장 정보 그대로 반영) -->
+      <div class="bg-[#F3EFEA] border border-[#E6DFD5] rounded-2xl p-6 shadow-sm space-y-6">
+        
+        <div class="grid grid-cols-2 gap-4 text-center relative">
+          <!-- 중앙 세로 구분선 -->
+          <div class="absolute left-1/2 top-2 bottom-2 w-[1px] bg-[#DED6CA] -translate-x-1/2"></div>
+
+          <!-- 신랑측 (Nhà Trai) -->
+          <div class="space-y-1.5 pr-2">
+            <p class="text-[11px] font-medium tracking-widest text-[#8C584C] uppercase">
+              <span class="lang-kr">신랑측</span> <span class="lang-vn">Nhà Trai</span>
+            </p>
+            <div class="text-xs text-[#4A423E] leading-relaxed">
+              <p class="font-medium">홍양표 <span class="text-[10px] text-[#7A6F68] block font-normal">Ông: HONG YANG PYO</span></p>
+              <p class="font-medium mt-1">양금순 <span class="text-[10px] text-[#7A6F68] block font-normal">Bà: YANG KEUM SOON</span></p>
+            </div>
+            <p class="text-[10px] text-[#8E837B] pt-1">대한민국 (Hàn Quốc)</p>
+          </div>
+
+          <!-- 신부측 (Nhà Gái) -->
+          <div class="space-y-1.5 pl-2">
+            <p class="text-[11px] font-medium tracking-widest text-[#8C584C] uppercase">
+              <span class="lang-kr">신부측</span> <span class="lang-vn">Nhà Gái</span>
+            </p>
+            <div class="text-xs text-[#4A423E] leading-relaxed">
+              <p class="font-medium">NGUYỄN VĂN BẢO <span class="text-[10px] text-[#7A6F68] block font-normal">Ông (부)</span></p>
+              <p class="font-medium mt-1">TRỊNH THỊ YÊN <span class="text-[10px] text-[#7A6F68] block font-normal">Bà (모)</span></p>
+            </div>
+            <p class="text-[10px] text-[#8E837B] pt-1">Mê Linh, TP. Hà Nội</p>
+          </div>
+        </div>
+
+        <div class="h-[1px] bg-[#E2DAD0] w-full"></div>
+
+        <!-- 신랑 & 신부 이름 하이라이트 -->
+        <div class="flex items-center justify-around pt-1">
+          <div class="text-center">
+            <span class="text-[10px] text-[#8C584C] block mb-0.5"><span class="lang-kr">신랑</span> <span class="lang-vn">Chú Rể</span></span>
+            <p class="text-base font-semibold tracking-wider text-[#2C2623]">홍창환</p>
+            <p class="font-eng text-xs tracking-wider text-[#6E645E]">HONG CHANG HWAN</p>
+          </div>
+
+          <div class="text-[#8C584C] flex flex-col items-center">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </div>
+
+          <div class="text-center">
+            <span class="text-[10px] text-[#8C584C] block mb-0.5"><span class="lang-kr">신부</span> <span class="lang-vn">Cô Dâu</span></span>
+            <p class="font-eng text-lg font-semibold tracking-wider text-[#2C2623]">NGỌC HẠNH</p>
+            <p class="text-xs tracking-wider text-[#6E645E]">응옥 하인</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 3: SHORT-FORM VIDEO CLIP #1 (시네마틱 짧은 영상 슬롯)
+         글 대신 짧은 모션 영상/클립이 들어가는 영역입니다.
+    ========================================================================== -->
+    <section class="reveal py-6 px-6">
+      <div class="flex items-center justify-between mb-2.5 px-1">
+        <div>
+          <p class="font-eng text-xs tracking-[0.25em] text-[#8C584C] uppercase">Our Moment 01</p>
+          <h2 class="text-sm font-medium text-[#2C2623]">
+            <span class="lang-kr">설레는 시작 (Short Film)</span>
+            <span class="lang-vn text-xs text-[#7A6F68] ml-1">Khoảnh khắc ngọt ngào</span>
+          </h2>
+        </div>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#EFEAE2] text-[#7A3E32] font-eng">VIDEO / GIF</span>
+      </div>
+
+      <!-- 숏폼 영상 프레임 (9:16 또는 4:5 세로형 비율) -->
+      <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-lg bg-[#2C2623] border border-[#E5DEC9]">
+        <!-- 
+          [TODO: 짧은 웨딩 영상 #1 교체 위치]
+          웨딩 촬영 스케치 영상이나 AI 무빙 포토(mp4/webm)를 받으시면
+          아래 <video> 태그 안의 src="videos/clip1.mp4" 로 교체하세요.
+        -->
+        <video 
+          id="short-video-1"
+          class="w-full h-full object-cover"
+          autoplay loop muted playsinline
+          poster="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80"
+        >
+          <!-- 샘플 웨딩 무드 비디오 (추후 본인 파일로 교체) -->
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-bride-and-groom-walking-in-a-field-41240-large.mp4" type="video/mp4" />
+        </video>
+
+        <!-- 감성 필름 오버레이 문구 -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/15 pointer-events-none flex flex-col justify-between p-5 text-white">
+          <div class="flex justify-between items-center text-[10px] tracking-widest uppercase opacity-80 font-eng">
+            <span>REC • 00:00:14</span>
+            <span>SEOUL ✈ HANOI</span>
+          </div>
+          <div>
+            <p class="font-eng italic text-lg">“Every love story is beautiful, but ours is my favorite.”</p>
+          </div>
+        </div>
+
+        <!-- 테스트 업로드 버튼 -->
+        <label class="preview-control absolute bottom-4 right-4 bg-white/85 backdrop-blur-md text-[#2C2623] text-[11px] px-3 py-1.5 rounded-full cursor-pointer hover:bg-white transition flex items-center gap-1 shadow">
+          <span>🎬 영상 #1 넣기</span>
+          <input type="file" accept="video/*,image/*" class="hidden" onchange="handleMediaUpload(event, 'video1')" />
+        </label>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 4: PHOTO GALLERY (웨딩 촬영 사진 그리드 + 풀스크린 뷰어)
+         나중에 사진만 추가하면 완성되도록 직관적인 슬롯으로 구성했습니다.
+    ========================================================================== -->
+    <section class="reveal py-10 px-6">
+      <div class="text-center mb-6">
+        <p class="font-eng text-xs tracking-[0.28em] text-[#8C584C] uppercase mb-1">Gallery</p>
+        <h2 class="text-base font-medium text-[#2C2623]">
+          <span class="lang-kr">우리의 빛나는 순간들</span>
+          <span class="lang-vn block text-xs text-[#7A6F68] font-normal mt-0.5">Album Hình Cưới</span>
+        </h2>
+        <p class="text-[11px] text-[#8E837B] mt-1">
+          <span class="lang-kr">사진을 터치하면 크게 보실 수 있습니다</span>
+          <span class="lang-vn">(Chạm vào ảnh để phóng to)</span>
+        </p>
+      </div>
+
+      <!-- 3x3 감성 그리드 갤러리 (웨딩 촬영 후 photo1.jpg ~ photo9.jpg 로 교체) -->
+      <div id="gallery-grid" class="grid grid-cols-3 gap-2">
+        <!-- JS에서 9장의 갤러리 슬롯을 렌더링합니다 -->
+      </div>
+
+      <!-- 사진 일괄 미리보기 업로드 버튼 (웨딩사진 나왔을 때 컴퓨터/폰에서 여러 장 한번에 선택해 테스트 가능) -->
+      <div class="preview-control mt-4 text-center">
+        <label class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#EFEAE2] border border-[#DCD3C6] text-[#5C534E] text-xs cursor-pointer hover:bg-[#E5DDD2] transition">
+          <svg class="w-4 h-4 text-[#7A3E32]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span>갤러리 사진 여러 장 한 번에 테스트해보기</span>
+          <input type="file" accept="image/*" multiple class="hidden" onchange="handleGalleryBulkUpload(event)" />
+        </label>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 5: SHORT-FORM VIDEO CLIP #2 (두 번째 짧은 영상 / 시네마틱 릴스 슬롯)
+    ========================================================================== -->
+    <section class="reveal py-6 px-6">
+      <div class="flex items-center justify-between mb-2.5 px-1">
+        <div>
+          <p class="font-eng text-xs tracking-[0.25em] text-[#8C584C] uppercase">Our Moment 02</p>
+          <h2 class="text-sm font-medium text-[#2C2623]">
+            <span class="lang-kr">함께 걸어갈 길</span>
+            <span class="lang-vn text-xs text-[#7A6F68] ml-1">Hành trình hạnh phúc</span>
+          </h2>
+        </div>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#EFEAE2] text-[#7A3E32] font-eng">REELS / CLIP</span>
+      </div>
+
+      <div class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-lg bg-[#2C2623] border border-[#E5DEC9]">
+        <!-- 
+          [TODO: 짧은 웨딩 영상 #2 교체 위치]
+          src="videos/clip2.mp4" 로 교체하세요.
+        -->
+        <video 
+          id="short-video-2"
+          class="w-full h-full object-cover"
+          autoplay loop muted playsinline
+          poster="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80"
+        >
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-newlyweds-walking-on-the-beach-at-sunset-40548-large.mp4" type="video/mp4" />
+        </video>
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent pointer-events-none flex items-end p-4 text-white">
+          <p class="font-eng italic text-sm tracking-wide">Ngọc Hạnh &amp; Chang Hwan — Forever Begins Here</p>
+        </div>
+
+        <label class="preview-control absolute bottom-3 right-3 bg-white/85 backdrop-blur-md text-[#2C2623] text-[11px] px-3 py-1.5 rounded-full cursor-pointer hover:bg-white transition flex items-center gap-1 shadow">
+          <span>🎬 영상 #2 넣기</span>
+          <input type="file" accept="video/*,image/*" class="hidden" onchange="handleMediaUpload(event, 'video2')" />
+        </label>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 6: CALENDAR & D-DAY (2026년 11월 14일 토요일 오후 4시 달력)
+    ========================================================================== -->
+    <section class="reveal py-12 px-7 text-center">
+      <p class="font-eng text-xs tracking-[0.28em] text-[#8C584C] uppercase mb-1">Save The Date</p>
+      <h2 class="font-eng text-2xl font-semibold text-[#2C2623] tracking-wider">2026 . 11 . 14</h2>
+      
+      <p class="text-xs text-[#4A423E] mt-1.5 font-medium">
+        <span class="lang-kr">2026년 11월 14일 토요일 오후 4시</span>
+        <span class="lang-vn block text-[#7A3E32] mt-0.5">16 GIỜ 00 - Thứ Bảy, Ngày 14 Tháng 11 Năm 2026</span>
+      </p>
+      <p class="text-[11px] text-[#8E837B] mt-1">
+        (음력 병오년 10월 6일 / Tức ngày 06 tháng 10 năm Bính Ngọ)
+      </p>
+
+      <!-- 한국 스타일 감성 웨딩 달력 (2026년 11월: 11월 1일이 일요일) -->
+      <div class="mt-6 bg-white/80 border border-[#E6DFD5] rounded-2xl p-6 shadow-sm">
+        <div class="font-eng text-sm tracking-[0.25em] text-[#7A3E32] uppercase font-semibold mb-4 pb-3 border-b border-[#EFEAE2]">
+          November 2026
+        </div>
+
+        <div class="grid grid-cols-7 gap-y-3 text-xs">
+          <!-- 요일 헤더 -->
+          <div class="text-[#B85D53] font-medium">SUN</div>
+          <div class="text-[#7A6F68]">MON</div>
+          <div class="text-[#7A6F68]">TUE</div>
+          <div class="text-[#7A6F68]">WED</div>
+          <div class="text-[#7A6F68]">THU</div>
+          <div class="text-[#7A6F68]">FRI</div>
+          <div class="text-[#5B7083] font-medium">SAT</div>
+
+          <!-- 2026년 11월 날짜 (1일 일요일 ~ 30일 월요일) -->
+          <div class="text-[#B85D53] py-1">1</div>
+          <div class="py-1">2</div>
+          <div class="py-1">3</div>
+          <div class="py-1">4</div>
+          <div class="py-1">5</div>
+          <div class="py-1">6</div>
+          <div class="text-[#5B7083] py-1">7</div>
+
+          <div class="text-[#B85D53] py-1">8</div>
+          <div class="py-1">9</div>
+          <div class="py-1">10</div>
+          <div class="py-1">11</div>
+          <div class="py-1">12</div>
+          <div class="py-1">13</div>
+          <!-- 예식일 14일 하이라이트 -->
+          <div class="relative flex items-center justify-center">
+            <span class="w-8 h-8 rounded-full bg-[#7A3E32] text-white font-semibold flex items-center justify-center shadow-md animate-pulse">
+              14
+            </span>
+            <span class="absolute -bottom-3 text-[9px] text-[#7A3E32] font-bold tracking-tighter">16:00</span>
+          </div>
+
+          <div class="text-[#B85D53] py-1 mt-1">15</div>
+          <div class="py-1 mt-1">16</div>
+          <div class="py-1 mt-1">17</div>
+          <div class="py-1 mt-1">18</div>
+          <div class="py-1 mt-1">19</div>
+          <div class="py-1 mt-1">20</div>
+          <div class="text-[#5B7083] py-1 mt-1">21</div>
+
+          <div class="text-[#B85D53] py-1">22</div>
+          <div class="py-1">23</div>
+          <div class="py-1">24</div>
+          <div class="py-1">25</div>
+          <div class="py-1">26</div>
+          <div class="py-1">27</div>
+          <div class="text-[#5B7083] py-1">28</div>
+
+          <div class="text-[#B85D53] py-1">29</div>
+          <div class="py-1">30</div>
+          <div></div><div></div><div></div><div></div><div></div>
+        </div>
+      </div>
+
+      <!-- 실시간 D-Day 카운트다운 위젯 -->
+      <div class="mt-6 grid grid-cols-4 gap-2.5 max-w-[320px] mx-auto">
+        <div class="bg-[#F3EFEA] border border-[#E5DEC9] rounded-xl py-3 px-2">
+          <span id="dday-days" class="font-eng text-2xl font-semibold text-[#7A3E32] block">00</span>
+          <span class="font-eng text-[10px] tracking-widest text-[#7A6F68] uppercase">Days</span>
+        </div>
+        <div class="bg-[#F3EFEA] border border-[#E5DEC9] rounded-xl py-3 px-2">
+          <span id="dday-hours" class="font-eng text-2xl font-semibold text-[#7A3E32] block">00</span>
+          <span class="font-eng text-[10px] tracking-widest text-[#7A6F68] uppercase">Hours</span>
+        </div>
+        <div class="bg-[#F3EFEA] border border-[#E5DEC9] rounded-xl py-3 px-2">
+          <span id="dday-mins" class="font-eng text-2xl font-semibold text-[#7A3E32] block">00</span>
+          <span class="font-eng text-[10px] tracking-widest text-[#7A6F68] uppercase">Mins</span>
+        </div>
+        <div class="bg-[#F3EFEA] border border-[#E5DEC9] rounded-xl py-3 px-2">
+          <span id="dday-secs" class="font-eng text-2xl font-semibold text-[#7A3E32] block">00</span>
+          <span class="font-eng text-[10px] tracking-widest text-[#7A6F68] uppercase">Secs</span>
+        </div>
+      </div>
+
+      <p id="dday-message" class="text-xs text-[#6E645E] mt-4">
+        창환 ♥ 응옥하인의 결혼식까지 소중한 시간을 세고 있습니다.
+      </p>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 7: LOCATION (예식장 위치 및 구글맵 연동 - 계좌번호 없음)
+    ========================================================================== -->
+    <section class="reveal py-12 px-6 text-center bg-[#F3EFEA]/70 border-t border-[#E6DFD5]">
+      <p class="font-eng text-xs tracking-[0.28em] text-[#8C584C] uppercase mb-1">Location</p>
+      <h2 class="text-base font-medium text-[#2C2623] mb-4">
+        <span class="lang-kr">오시는 길</span>
+        <span class="lang-vn text-sm text-[#7A3E32] ml-1">Địa Điểm Tổ Chức</span>
+      </h2>
+
+      <!-- 종이 청첩장의 장소 정보 카드 -->
+      <div class="bg-white rounded-2xl p-5 border border-[#E5DEC9] shadow-sm text-center mb-4">
+        <p class="text-xs text-[#8C584C] font-medium mb-1">HÔN LÊ TỔ CHỨC TẠI</p>
+        <h3 class="text-lg font-semibold text-[#2C2623] tracking-wide">NHÀ VĂN HÓA PHỐ YÊN</h3>
+        <p class="text-xs text-[#5C534E] mt-1.5 leading-relaxed">
+          Thôn Trung Yên - Xã Mê Linh - TP. Hà Nội
+        </p>
+        <p class="text-[11px] text-[#8E837B] mt-1 lang-kr">
+          (베트남 하노이시 메린현 쭝이엔 포이엔 문화회관)
+        </p>
+
+        <!-- 주소 복사 버튼 -->
+        <button onclick="copyAddress()" class="mt-3.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FAF8F5] border border-[#DED6CA] text-[11px] text-[#5C534E] hover:bg-[#EFEAE2] active:scale-95 transition">
+          <svg class="w-3.5 h-3.5 text-[#7A3E32]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+          <span class="lang-kr">주소 복사하기</span>
+          <span class="lang-vn">Sao chép địa chỉ</span>
+        </button>
+      </div>
+
+      <!-- 구글 지도 임베드 -->
+      <div class="w-full h-60 rounded-2xl overflow-hidden border border-[#E5DEC9] shadow-sm mb-4 bg-[#EAE4DC]">
+        <iframe 
+          title="NHÀ VĂN HÓA PHỐ YÊN Map"
+          class="w-full h-full border-0"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Th%C3%B4n+Trung+Y%C3%AAn,+X%C3%A3+M%C3%AA+Linh,+H%C3%A0+N%E1%BB%99i&output=embed">
+        </iframe>
+      </div>
+
+      <!-- 구글 맵 앱/웹 바로가기 버튼 -->
+      <div class="grid grid-cols-1 gap-2.5">
+        <a 
+          href="https://www.google.com/maps/search/?api=1&query=Nhà+Văn+Hóa+Phố+Yên+Thôn+Trung+Yên+Xã+Mê+Linh+Hà+Nội" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="w-full py-3.5 px-5 rounded-xl bg-[#7A3E32] text-white text-xs font-medium tracking-wider flex items-center justify-center gap-2 shadow hover:bg-[#653127] active:scale-95 transition"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          <span>Google Maps 길찾기 / Xem bản đồ Google Maps</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 8: FOOTER & 공유하기 / 사진 교체 가이드 도구
+    ========================================================================== -->
+    <footer class="py-12 px-6 text-center bg-[#FAF8F5] border-t border-[#EFEAE2]">
+      <p class="font-script text-3xl text-[#7A3E32] mb-1">Thank You</p>
+      <p class="text-xs text-[#6E645E] leading-relaxed">
+        Sự hiện diện của Quý Khách là niềm vinh dự cho gia đình chúng tôi.<br/>
+        <span class="lang-kr text-[11px] text-[#8E837B]">함께해 주시는 모든 분들께 진심으로 감사드립니다.</span>
+      </p>
+
+      <!-- 링크 복사하기 버튼 -->
+      <div class="mt-6 flex justify-center gap-2">
+        <button onclick="shareInvitationLink()" class="px-5 py-2.5 rounded-full bg-white border border-[#DED6CA] text-xs text-[#4A423E] shadow-sm hover:bg-[#F3EFEA] flex items-center gap-1.5 transition">
+          <svg class="w-3.5 h-3.5 text-[#7A3E32]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+          </svg>
+          <span>청첩장 링크 복사 / Sao chép link thiệp</span>
+        </button>
+      </div>
+
+      <!-- 제작자(신랑님) 전용 툴바: 실제 하객 공유 전 테스트 버튼 숨기기 & 깃허브 적용 안내 -->
+      <div class="mt-10 pt-6 border-t border-dashed border-[#DED6CA] text-[11px] text-[#8E837B] space-y-2">
+        <div class="flex items-center justify-center gap-3">
+          <button onclick="togglePreviewButtons()" id="toggle-preview-btn" class="px-3 py-1.5 rounded-lg bg-[#EFEAE2] text-[#5C534E] hover:bg-[#E2DAD0] transition">
+            👁️ 사진 테스트 버튼 숨기기 (하객용 화면 보기)
+          </button>
+          <button onclick="openGuideModal()" class="px-3 py-1.5 rounded-lg bg-[#7A3E32]/10 text-[#7A3E32] font-medium hover:bg-[#7A3E32]/20 transition">
+            💡 사진/영상/BGM 교체 방법
+          </button>
+        </div>
+        <p class="font-eng text-[10px] tracking-widest opacity-60 pt-2">
+          NGỌC HẠNH ♥ HONG CHANG HWAN • 14.11.2026
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- =========================================================================
+       [모달 1] 풀스크린 갤러리 라이트박스 (좌우 넘기기 지원)
+  ========================================================================== -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4 select-none">
+    <button onclick="closeLightbox()" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/15 text-white flex items-center justify-center text-xl hover:bg-white/30 transition">
+      ✕
+    </button>
+
+    <button onclick="changeLightboxSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/15 text-white flex items-center justify-center hover:bg-white/30 transition">
+      ‹
+    </button>
+
+    <div class="max-w-[400px] w-full flex flex-col items-center">
+      <img id="lightbox-img" src="" alt="Gallery Zoom" class="max-h-[78vh] w-auto rounded-lg object-contain shadow-2xl transition-all duration-300" />
+      <p id="lightbox-counter" class="text-white/75 font-eng text-sm tracking-widest mt-3">1 / 9</p>
+    </div>
+
+    <button onclick="changeLightboxSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/15 text-white flex items-center justify-center hover:bg-white/30 transition">
+      ›
+    </button>
+  </div>
+
+  <!-- =========================================================================
+       [모달 2] 베트남 인기 결혼 음악 (BGM) 선곡 & MP3 파일 연동 모달
+  ========================================================================== -->
+  <div id="bgm-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[#FAF8F5] border border-[#E5DEC9] rounded-2xl max-w-[390px] w-full p-6 shadow-2xl text-left">
+      <div class="flex items-center justify-between pb-3 border-b border-[#E5DEC9]">
+        <div>
+          <h3 class="text-sm font-semibold text-[#2C2623]">🎵 베트남 웨딩 BGM 설정</h3>
+          <p class="text-[11px] text-[#7A6F68]">베트남 결혼식에서 가장 사랑받는 대표 웨딩송</p>
+        </div>
+        <button onclick="closeBgmModal()" class="text-[#7A6F68] hover:text-[#2C2623] text-lg">✕</button>
+      </div>
+
+      <!-- 내장 어쿠스틱 멜로디 프리셋 (저작권 걱정 없이 즉시 재생 가능) -->
+      <div class="mt-4 space-y-2">
+        <p class="text-[11px] font-medium text-[#7A3E32]">1. 기본 내장 웨딩 멜로디 선택 (클릭 시 즉시 변경)</p>
+        
+        <button onclick="selectBgmTrack(0)" id="track-btn-0" class="w-full text-left p-3 rounded-xl border border-[#7A3E32] bg-[#7A3E32]/10 flex items-center justify-between transition">
+          <div>
+            <p class="text-xs font-semibold text-[#2C2623]">Hơn Cả Yêu - Đức Phúc (Acoustic Ver.)</p>
+            <p class="text-[10px] text-[#7A6F68]">베트남 국민 결혼 축가 1위 • 로맨틱 피아노&오르골 무드</p>
+          </div>
+          <span class="text-xs text-[#7A3E32] font-semibold">재생중</span>
+        </button>
+
+        <button onclick="selectBgmTrack(1)" id="track-btn-1" class="w-full text-left p-3 rounded-xl border border-[#E5DEC9] bg-white hover:bg-[#F3EFEA] flex items-center justify-between transition">
+          <div>
+            <p class="text-xs font-semibold text-[#2C2623]">Ngày Đầu Tiên - Đức Phúc (Melody Ver.)</p>
+            <p class="text-[10px] text-[#7A6F68]">베트남 프로포즈 & 신랑신부 입장곡 베스트</p>
+          </div>
+          <span class="text-xs text-[#8E837B]">선택</span>
+        </button>
+
+        <button onclick="selectBgmTrack(2)" id="track-btn-2" class="w-full text-left p-3 rounded-xl border border-[#E5DEC9] bg-white hover:bg-[#F3EFEA] flex items-center justify-between transition">
+          <div>
+            <p class="text-xs font-semibold text-[#2C2623]">Một Nhà - Da LAB (Sweet Waltz Ver.)</p>
+            <p class="text-[10px] text-[#7A6F68]">"두 사람이 한 가족이 되는 날" 경쾌하고 따뜻한 멜로디</p>
+          </div>
+          <span class="text-xs text-[#8E837B]">선택</span>
+        </button>
+      </div>
+
+      <!-- 실제 MP3 파일 테스트 업로드 또는 GitHub 연동 안내 -->
+      <div class="mt-5 pt-4 border-t border-[#E5DEC9]">
+        <p class="text-[11px] font-medium text-[#7A3E32] mb-2">2. 원곡 MP3 파일 직접 넣기</p>
+        <p class="text-[11px] text-[#6E645E] leading-relaxed mb-3">
+          소장하신 원곡 MP3 파일을 GitHub 저장소에 <code class="bg-[#EFEAE2] px-1.5 py-0.5 rounded text-[#7A3E32]">bgm.mp3</code> 이름으로 함께 올리시면 자동으로 원곡이 재생됩니다. 지금 바로 아래 버튼으로 내 폰/PC의 MP3를 테스트해 보실 수도 있습니다.
+        </p>
+        <label class="w-full py-2.5 px-4 rounded-xl bg-[#7A3E32] text-white text-xs font-medium flex items-center justify-center gap-2 cursor-pointer hover:bg-[#653127] transition">
+          <span>📂 내 MP3 음악 파일 불러와서 들어보기</span>
+          <input type="file" accept="audio/*" class="hidden" onchange="handleCustomAudioUpload(event)" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       [모달 3] 웨딩촬영 사진 나온 후 GitHub Pages 적용 가이드 모달
+  ========================================================================== -->
+  <div id="guide-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[#FAF8F5] border border-[#E5DEC9] rounded-2xl max-w-[400px] w-full p-6 shadow-2xl text-left max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-[#E5DEC9]">
+        <h3 class="text-sm font-semibold text-[#2C2623]">💡 웨딩촬영 후 사진/영상 교체 가이드</h3>
+        <button onclick="closeGuideModal()" class="text-[#7A6F68] hover:text-[#2C2623] text-lg">✕</button>
+      </div>
+
+      <div class="mt-4 space-y-4 text-xs text-[#4A423E] leading-relaxed">
+        <div class="bg-white p-3.5 rounded-xl border border-[#E5DEC9]">
+          <p class="font-semibold text-[#7A3E32] mb-1">1. 폴더 구조 (GitHub 저장소)</p>
+          <pre class="text-[11px] bg-[#F3EFEA] p-2.5 rounded-lg overflow-x-auto text-[#2C2623]">📁 wedding-invitation/
+ ├── index.html (현재 이 파일)
+ ├── bgm.mp3 (베트남 결혼 음악 파일)
+ ├── 📁 images/
+ │    ├── main.jpg (메인 대표 웨딩사진)
+ │    ├── photo1.jpg ~ photo9.jpg (갤러리 사진 9장)
+ └── 📁 videos/
+      ├── clip1.mp4 (짧은 영상 1)
+      └── clip2.mp4 (짧은 영상 2)</pre>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-[#E5DEC9]">
+          <p class="font-semibold text-[#7A3E32] mb-1">2. 사진만 바꾸는 가장 쉬운 방법</p>
+          <p class="text-[11px] text-[#6E645E]">
+            코드 안에서 <code class="bg-[#EFEAE2] px-1 rounded">TODO:</code> 로 검색하시면 메인 사진, 짧은 영상 2곳, 그리고 하단 스크립트의 <code class="bg-[#EFEAE2] px-1 rounded">GALLERY_PHOTOS</code> 배열이 나옵니다. 여기에 준비된 사진 경로만 넣으시면 즉시 완성됩니다!
+          </p>
+        </div>
+
+        <div class="bg-white p-3.5 rounded-xl border border-[#E5DEC9]">
+          <p class="font-semibold text-[#7A3E32] mb-1">3. 하객에게 공유하기 전 팁</p>
+          <p class="text-[11px] text-[#6E645E]">
+            현재 화면에 보이는 <span class="text-[#7A3E32] font-medium">'메인 사진/영상 테스트'</span> 버튼들은 신랑신부님이 사진을 미리 넣어보실 수 있도록 만든 기능입니다. 실제 배포 시에는 하단의 <strong>'사진 테스트 버튼 숨기기'</strong>를 누르거나 코드 내 <code class="bg-[#EFEAE2] px-1 rounded">SHOW_PREVIEW_CONTROLS = false</code> 로 바꾸시면 깔끔하게 사라집니다.
+          </p>
+        </div>
+      </div>
+
+      <button onclick="closeGuideModal()" class="mt-5 w-full py-2.5 rounded-xl bg-[#7A3E32] text-white text-xs font-medium">
+        확인했습니다
+      </button>
+    </div>
+  </div>
+
+  <!-- 토스트 알림창 (alert 대체) -->
+  <div id="toast-box" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-[#2C2623]/95 text-white text-xs px-5 py-3 rounded-full shadow-xl opacity-0 pointer-events-none transition-opacity duration-300 text-center whitespace-nowrap">
+    복사되었습니다.
+  </div>
+
+  <!-- =========================================================================
+       JAVASCRIPT: 갤러리 데이터, BGM 신디사이저/오디오, 카운트다운, 다국어 제어
+  ========================================================================== -->
+  <script>
+    /***************************************************************************
+     * [TODO: 웨딩 촬영 사진 9장 경로 설정]
+     * 나중에 웨딩 촬영 사진을 받으시면 아래 배열의 주소를
+     * 'images/photo1.jpg', 'images/photo2.jpg' ... 로 변경해 주세요!
+     ***************************************************************************/
+    const SHOW_PREVIEW_CONTROLS = true; // 실제 하객 배포 시 false 로 바꾸면 모든 테스트 업로드 버튼이 숨겨집니다.
+
+    const GALLERY_PHOTOS = [
+      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80", // photo1.jpg
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80", // photo2.jpg
+      "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80", // photo3.jpg
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80", // photo4.jpg
+      "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80", // photo5.jpg
+      "https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=800&q=80", // photo6.jpg
+      "https://images.unsplash.com/photo-1591604466107-ec97de577aff?auto=format&fit=crop&w=800&q=80", // photo7.jpg
+      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80", // photo8.jpg
+      "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80"  // photo9.jpg
+    ];
+
+    // 1. 갤러리 그리드 렌더링 및 라이트박스 제어
+    let currentLightboxIndex = 0;
+
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      grid.innerHTML = '';
+      GALLERY_PHOTOS.forEach((url, index) => {
+        const item = document.createElement('div');
+        item.className = 'relative aspect-[3/4] rounded-xl overflow-hidden bg-[#E8E0D5] cursor-pointer group shadow-sm border border-[#E6DFD5]';
+        item.onclick = () => openLightbox(index);
+        item.innerHTML = `
+          <img 
+            src="${url}" 
+            alt="Wedding Gallery ${index + 1}" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            onerror="this.src='https://placehold.co/600x800/E8E0D5/7A3E32?text=Photo+${index + 1}'"
+          />
+          <div class="absolute bottom-1.5 right-1.5 bg-black/40 text-white text-[9px] font-eng px-1.5 py-0.5 rounded opacity-70">
+            0${index + 1}
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function openLightbox(index) {
+      currentLightboxIndex = index;
+      updateLightboxImage();
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function changeLightboxSlide(step) {
+      currentLightboxIndex = (currentLightboxIndex + step + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length;
+      updateLightboxImage();
+    }
+
+    function updateLightboxImage() {
+      document.getElementById('lightbox-img').src = GALLERY_PHOTOS[currentLightboxIndex];
+      document.getElementById('lightbox-counter').textContent = `${currentLightboxIndex + 1} / ${GALLERY_PHOTOS.length}`;
+    }
+
+    // 2. 내 사진/영상 즉시 넣어보기 테스트 핸들러
+    function handleMediaUpload(event, targetType) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const fileUrl = URL.createObjectURL(file);
+      const isVideo = file.type.startsWith('video/');
+
+      if (targetType === 'hero') {
+        const imgEl = document.getElementById('hero-image-preview');
+        const vidEl = document.getElementById('hero-video-preview');
+        if (isVideo) {
+          imgEl.classList.add('hidden');
+          vidEl.src = fileUrl;
+          vidEl.classList.remove('hidden');
+          vidEl.play();
+        } else {
+          vidEl.classList.add('hidden');
+          imgEl.src = fileUrl;
+          imgEl.classList.remove('hidden');
+        }
+        showToast('메인 웨딩 화면이 선택한 파일로 변경되었습니다!');
+      } else if (targetType === 'video1') {
+        const v1 = document.getElementById('short-video-1');
+        v1.src = fileUrl;
+        v1.play();
+        showToast('첫 번째 숏폼 영상이 변경되었습니다!');
+      } else if (targetType === 'video2') {
+        const v2 = document.getElementById('short-video-2');
+        v2.src = fileUrl;
+        v2.play();
+        showToast('두 번째 숏폼 영상이 변경되었습니다!');
+      }
+    }
+
+    function handleGalleryBulkUpload(event) {
+      const files = Array.from(event.target.files);
+      if (!files.length) return;
+      files.slice(0, 9).forEach((file, idx) => {
+        GALLERY_PHOTOS[idx] = URL.createObjectURL(file);
+      });
+      renderGallery();
+      showToast(`${Math.min(files.length, 9)}장의 사진이 갤러리에 적용되었습니다!`);
+    }
+
+    // 3. 베트남 웨딩 BGM 컨트롤러 (실제 MP3 우선 재생 + 없을 시 Tone.js 어쿠스틱 웨딩 멜로디 연주)
+    let isBgmPlaying = false;
+    let usingCustomMp3 = false;
+    let currentTrackIndex = 0;
+    let toneSynth = null;
+    let toneLoop = null;
+
+    // 베트남 대표 결혼식 축가 3선 모티브의 따뜻한 어쿠스틱 코드/멜로디 패턴
+    const VIETNAMESE_WEDDING_TRACKS = [
+      {
+        title: "Hơn Cả Yêu",
+        badge: "🎵 Hơn Cả Yêu",
+        bpm: 74,
+        notes: [
+          { time: "0:0:0", note: ["C4", "E4", "G4", "B4"], dur: "2n" },
+          { time: "0:2:0", note: "E5", dur: "4n" },
+          { time: "0:3:0", note: "D5", dur: "4n" },
+          { time: "1:0:0", note: ["A3", "C4", "E4", "C5"], dur: "2n" },
+          { time: "1:2:0", note: "B4", dur: "4n" },
+          { time: "1:3:0", note: "A4", dur: "4n" },
+          { time: "2:0:0", note: ["F3", "A3", "C4", "A4"], dur: "2n" },
+          { time: "2:2:0", note: "G4", dur: "4n" },
+          { time: "2:3:0", note: "F4", dur: "4n" },
+          { time: "3:0:0", note: ["G3", "B3", "D4", "G4"], dur: "2n" },
+          { time: "3:2:0", note: "B4", dur: "4n" },
+          { time: "3:3:0", note: "D5", dur: "4n" }
+        ]
+      },
+      {
+        title: "Ngày Đầu Tiên",
+        badge: "🎵 Ngày Đầu Tiên",
+        bpm: 80,
+        notes: [
+          { time: "0:0:0", note: ["D4", "F#4", "A4", "D5"], dur: "2n" },
+          { time: "0:2:0", note: "F#5", dur: "4n" },
+          { time: "0:3:0", note: "E5", dur: "4n" },
+          { time: "1:0:0", note: ["B3", "D4", "F#4", "D5"], dur: "2n" },
+          { time: "1:2:0", note: "C#5", dur: "4n" },
+          { time: "1:3:0", note: "B4", dur: "4n" },
+          { time: "2:0:0", note: ["G3", "B3", "D4", "B4"], dur: "2n" },
+          { time: "2:2:0", note: "A4", dur: "4n" },
+          { time: "2:3:0", note: "G4", dur: "4n" },
+          { time: "3:0:0", note: ["A3", "C#4", "E4", "A4"], dur: "2n" },
+          { time: "3:2:0", note: "C#5", dur: "4n" },
+          { time: "3:3:0", note: "E5", dur: "4n" }
+        ]
+      },
+      {
+        title: "Một Nhà",
+        badge: "🎵 Một Nhà",
+        bpm: 88,
+        notes: [
+          { time: "0:0:0", note: ["G3", "B3", "D4", "G4"], dur: "4n" },
+          { time: "0:1:0", note: "B4", dur: "4n" },
+          { time: "0:2:0", note: "D5", dur: "4n" },
+          { time: "0:3:0", note: "B4", dur: "4n" },
+          { time: "1:0:0", note: ["D3", "F#3", "A3", "F#4"], dur: "4n" },
+          { time: "1:1:0", note: "A4", dur: "4n" },
+          { time: "1:2:0", note: "D5", dur: "4n" },
+          { time: "1:3:0", note: "A4", dur: "4n" },
+          { time: "2:0:0", note: ["E3", "G3", "B3", "G4"], dur: "4n" },
+          { time: "2:1:0", note: "B4", dur: "4n" },
+          { time: "2:2:0", note: "E5", dur: "4n" },
+          { time: "2:3:0", note: "D5", dur: "4n" },
+          { time: "3:0:0", note: ["C3", "E3", "G3", "C5"], dur: "2n" },
+          { time: "3:2:0", note: ["D3", "F#3", "A3", "A4"], dur: "2n" }
+        ]
+      }
+    ];
+
+    async function startBgm() {
+      const audioEl = document.getElementById('custom-bgm-audio');
+
+      // 1) 만약 사용자가 직접 올린 bgm.mp3 또는 업로드한 파일이 유효하면 우선 재생
+      if (usingCustomMp3 && audioEl.src) {
+        try {
+          await audioEl.play();
+          isBgmPlaying = true;
+          updateBgmUi();
+          return;
+        } catch (err) {
+          // 폴백으로 내장 멜로디 실행
+        }
+      }
+
+      // 2) Tone.js 기반 부드러운 어쿠스틱 오르골/피아노 연주
+      try {
+        await Tone.start();
+        if (!toneSynth) {
+          const reverb = new Tone.Reverb({ decay: 4, wet: 0.45 }).toDestination();
+          toneSynth = new Tone.PolySynth(Tone.Synth, {
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.04, decay: 1.4, sustain: 0.2, release: 2.2 }
+          }).connect(reverb);
+          toneSynth.volume.value = -8;
+        }
+
+        setupToneTrack(currentTrackIndex);
+        Tone.Transport.start();
+        isBgmPlaying = true;
+        updateBgmUi();
+      } catch (e) {
+        console.error("Audio play error:", e);
+      }
+    }
+
+    function setupToneTrack(index) {
+      const track = VIETNAMESE_WEDDING_TRACKS[index];
+      Tone.Transport.bpm.value = track.bpm;
+      if (toneLoop) {
+        toneLoop.dispose();
+      }
+      toneLoop = new Tone.Part((time, value) => {
+        toneSynth.triggerAttackRelease(value.note, value.dur, time);
+      }, track.notes).start(0);
+      toneLoop.loop = true;
+      toneLoop.loopEnd = "4m";
+    }
+
+    function pauseBgm() {
+      const audioEl = document.getElementById('custom-bgm-audio');
+      audioEl.pause();
+      if (window.Tone) {
+        Tone.Transport.pause();
+      }
+      isBgmPlaying = false;
+      updateBgmUi();
+    }
+
+    function toggleBgm() {
+      if (isBgmPlaying) {
+        pauseBgm();
+      } else {
+        startBgm();
+      }
+    }
+
+    function selectBgmTrack(index) {
+      usingCustomMp3 = false;
+      const audioEl = document.getElementById('custom-bgm-audio');
+      audioEl.pause();
+
+      currentTrackIndex = index;
+      const track = VIETNAMESE_WEDDING_TRACKS[index];
+      document.getElementById('current-song-badge').textContent = track.badge;
+
+      // 모달 버튼 스타일 업데이트
+      [0, 1, 2].forEach(i => {
+        const btn = document.getElementById(`track-btn-${i}`);
+        const statusSpan = btn.querySelector('span');
+        if (i === index) {
+          btn.className = "w-full text-left p-3 rounded-xl border border-[#7A3E32] bg-[#7A3E32]/10 flex items-center justify-between transition";
+          statusSpan.textContent = "재생중";
+          statusSpan.className = "text-xs text-[#7A3E32] font-semibold";
+        } else {
+          btn.className = "w-full text-left p-3 rounded-xl border border-[#E5DEC9] bg-white hover:bg-[#F3EFEA] flex items-center justify-between transition";
+          statusSpan.textContent = "선택";
+          statusSpan.className = "text-xs text-[#8E837B]";
+        }
+      });
+
+      startBgm();
+      showToast(`베트남 웨딩 BGM '${track.title}' 멜로디로 변경되었습니다.`);
+    }
+
+    function handleCustomAudioUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const audioEl = document.getElementById('custom-bgm-audio');
+      if (window.Tone) Tone.Transport.pause();
+      audioEl.src = url;
+      usingCustomMp3 = true;
+      document.getElementById('current-song-badge').textContent = `🎵 ${file.name}`;
+      startBgm();
+      closeBgmModal();
+      showToast(`선택하신 음악 파일(${file.name})이 재생됩니다!`);
+    }
+
+    function updateBgmUi() {
+      const iconPlaying = document.getElementById('bgm-icon-playing');
+      const iconPaused = document.getElementById('bgm-icon-paused');
+      if (isBgmPlaying) {
+        iconPlaying.classList.remove('hidden');
+        iconPaused.classList.add('hidden');
+      } else {
+        iconPlaying.classList.add('hidden');
+        iconPaused.classList.remove('hidden');
+      }
+    }
+
+    // 4. 한국어 / 베트남어 언어 전환
+    function setLanguage(mode) {
+      const krEls = document.querySelectorAll('.lang-kr');
+      const vnEls = document.querySelectorAll('.lang-vn');
+
+      ['BOTH', 'KR', 'VN'].forEach(m => {
+        const btn = document.getElementById(`lang-btn-${m}`);
+        if (m === mode) {
+          btn.className = "px-2.5 py-1 rounded-full bg-[#7A3E32] text-white font-medium transition";
+        } else {
+          btn.className = "px-2.5 py-1 rounded-full text-[#6E645E] hover:text-[#2C2623] transition";
+        }
+      });
+
+      if (mode === 'BOTH') {
+        krEls.forEach(el => el.classList.remove('hidden'));
+        vnEls.forEach(el => el.classList.remove('hidden'));
+      } else if (mode === 'KR') {
+        krEls.forEach(el => el.classList.remove('hidden'));
+        vnEls.forEach(el => el.classList.add('hidden'));
+      } else if (mode === 'VN') {
+        krEls.forEach(el => el.classList.add('hidden'));
+        vnEls.forEach(el => el.classList.remove('hidden'));
+      }
+    }
+
+    // 5. 2026년 11월 14일 오후 4시 (하노이 시간 GMT+7 기준) D-Day 카운트다운
+    function updateCountdown() {
+      const weddingDate = new Date('2026-11-14T16:00:00+07:00').getTime();
+      const now = new Date().getTime();
+      const diff = weddingDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('dday-days').textContent = "00";
+        document.getElementById('dday-hours').textContent = "00";
+        document.getElementById('dday-mins').textContent = "00";
+        document.getElementById('dday-secs').textContent = "00";
+        document.getElementById('dday-message').textContent = "행복하게 잘 살겠습니다! / Cảm ơn Quý khách đã đến chung vui!";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('dday-days').textContent = String(days).padStart(2, '0');
+      document.getElementById('dday-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('dday-mins').textContent = String(mins).padStart(2, '0');
+      document.getElementById('dday-secs').textContent = String(secs).padStart(2, '0');
+      document.getElementById('dday-message').innerHTML = `
+        <span class="lang-kr">창환 ♥ 응옥하인의 결혼식이 <strong class="text-[#7A3E32]">${days}일</strong> 남았습니다.</span>
+        <span class="lang-vn block text-[11px] text-[#8E837B] mt-0.5">Còn ${days} ngày nữa đến Lễ Vu Quy của chúng mình.</span>
+      `;
+    }
+
+    // 6. 주소 복사 및 청첩장 링크 복사 (iFrame 호환)
+    function copyTextToClipboard(text, message) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast(message);
+    }
+
+    function copyAddress() {
+      copyTextToClipboard(
+        "Nhà Văn Hóa Phố Yên, Thôn Trung Yên, Xã Mê Linh, TP. Hà Nội",
+        "예식장 주소가 복사되었습니다! (Đã sao chép địa chỉ)"
+      );
+    }
+
+    function shareInvitationLink() {
+      copyTextToClipboard(
+        window.location.href,
+        "청첩장 링크가 복사되었습니다! (Đã sao chép link thiệp)"
+      );
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-box');
+      toast.textContent = msg;
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+      }, 2600);
+    }
+
+    // 7. 모달 및 테스트 버튼 토글
+    function openBgmModal() {
+      const m = document.getElementById('bgm-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+    function closeBgmModal() {
+      const m = document.getElementById('bgm-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+    function openGuideModal() {
+      const m = document.getElementById('guide-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+    function closeGuideModal() {
+      const m = document.getElementById('guide-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    let previewButtonsVisible = SHOW_PREVIEW_CONTROLS;
+    function togglePreviewButtons() {
+      previewButtonsVisible = !previewButtonsVisible;
+      const controls = document.querySelectorAll('.preview-control');
+      controls.forEach(el => {
+        el.style.display = previewButtonsVisible ? '' : 'none';
+      });
+      const btn = document.getElementById('toggle-preview-btn');
+      btn.textContent = previewButtonsVisible
+        ? '👁️ 사진 테스트 버튼 숨기기 (하객용 화면 보기)'
+        : '👁️ 사진 테스트 버튼 다시 보이기';
+      showToast(previewButtonsVisible ? '사진/영상 테스트 버튼이 표시됩니다.' : '하객에게 보이는 깔끔한 화면 모드입니다.');
+    }
+
+    // 8. 벚꽃/웨딩 꽃잎이 은은하게 흩날리는 캔버스 애니메이션
+    function initPetalCanvas() {
+      const canvas = document.getElementById('petal-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = Math.min(window.innerWidth, 430);
+      let height = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = Math.min(window.innerWidth, 430);
+        height = canvas.height = window.innerHeight;
+      });
+
+      const petals = Array.from({ length: 14 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 3.5 + 2,
+        vx: Math.random() * 0.6 - 0.3,
+        vy: Math.random() * 0.7 + 0.4,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.02
+      }));
+
+      function drawPetals() {
+        ctx.clearRect(0, 0, width, height);
+        petals.forEach(p => {
+          p.x += p.vx + Math.sin(p.angle) * 0.25;
+          p.y += p.vy;
+          p.angle += p.spin;
+
+          if (p.y > height + 10) {
+            p.y = -10;
+            p.x = Math.random() * width;
+          }
+          if (p.x > width + 10) p.x = -10;
+          if (p.x < -10) p.x = width + 10;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.angle);
+          ctx.fillStyle = 'rgba(218, 185, 175, 0.38)';
+          ctx.beginPath();
+          ctx.ellipse(0, 0, p.r, p.r * 1.6, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+        requestAnimationFrame(drawPetals);
+      }
+      drawPetals();
+    }
+
+    // 9. 초기화 및 인트로 열기 이벤트
+    window.onload = function () {
+      renderGallery();
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+      initPetalCanvas();
+
+      if (!SHOW_PREVIEW_CONTROLS) {
+        document.querySelectorAll('.preview-control').forEach(el => el.style.display = 'none');
+      }
+
+      // 스크롤 페이드인 옵저버
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      // 인트로 커버 열기 (음악 재생 포함)
+      const introOverlay = document.getElementById('intro-overlay');
+      document.getElementById('open-invitation-btn').addEventListener('click', () => {
+        startBgm();
+        introOverlay.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => introOverlay.style.display = 'none', 1000);
+      });
+
+      // 음소거로 열기
+      document.getElementById('open-muted-btn').addEventListener('click', () => {
+        introOverlay.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => introOverlay.style.display = 'none', 1000);
+      });
+    };
+  </script>
+</body>
+</html>
