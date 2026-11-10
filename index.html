@@ -216,7 +216,7 @@
 </head>
 <body data-lang="both">
 
-  <!-- 배경음악 오디오 태그 (Hơn Cả Yêu - Đức Phúc) -->
+  <!-- 배경음악 오디오 태그 (Cưới Nhau Đi) -->
   <audio id="bgm-audio" loop preload="auto"></audio>
 
   <!-- 메인 모바일 청첩장 컨테이너 -->
@@ -233,7 +233,7 @@
       <div class="bgm-group">
         <button type="button" onclick="toggleBgm()" class="bgm-pill" title="배경음악 켜기/끄기">
           <span>🎵</span>
-          <span id="bgm-label" class="font-medium">Hơn Cả Yêu</span>
+          <span id="bgm-label" class="font-medium">Cưới Nhau Đi</span>
         </button>
         <button type="button" id="bgm-btn" onclick="toggleBgm()" class="bgm-toggle-btn" aria-label="음악 켜기/끄기">
           <svg id="bgm-icon" class="w-4 h-4 spin-disc spin-paused" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -497,20 +497,17 @@
 
   <!-- 사진 전체화면 슬라이드 뷰어 (좌우 이동 버튼 & 스와이프 지원) -->
   <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 hidden flex-col justify-between p-4 select-none" onclick="closeLightbox()">
-    <!-- 상단 바: 사진 순서 표시 & 닫기 버튼 -->
     <div class="flex items-center justify-between text-white px-2 pt-2 z-10" onclick="event.stopPropagation()">
       <span id="lightbox-counter" class="text-xs font-medium tracking-widest bg-white/15 px-3 py-1 rounded-full">1 / 1</span>
       <button type="button" onclick="closeLightbox()" class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-lg">✕</button>
     </div>
 
-    <!-- 중앙 이미지 및 좌우 화살표 -->
     <div class="relative flex-1 flex items-center justify-center overflow-hidden my-2" onclick="event.stopPropagation()">
       <button type="button" onclick="prevPhoto(event)" class="lightbox-nav-btn absolute left-2 z-10" aria-label="이전 사진">‹</button>
       <img id="lightbox-img" src="" alt="Wedding Photo" class="max-w-full max-h-[80vh] rounded-lg object-contain shadow-2xl transition-opacity duration-200" />
       <button type="button" onclick="nextPhoto(event)" class="lightbox-nav-btn absolute right-2 z-10" aria-label="다음 사진">›</button>
     </div>
 
-    <!-- 하단 안내 -->
     <div class="text-center text-[11px] text-white/70 pb-2">
       좌우 화살표를 누르거나 옆으로 밀어서 이동하세요
     </div>
@@ -523,16 +520,24 @@
 
   <script>
     // =========================================================================
-    // 1. 배경음악 (Hơn Cả Yêu - Đức Phúc) 자동 탐색 및 재생 제어
+    // 1. 배경음악 (cuoi-nhau-di) 전용 탐색 및 캐시 방지 재생 제어
     // =========================================================================
     const audioEl = document.getElementById('bgm-audio');
     const bgmIcon = document.getElementById('bgm-icon');
+    const cacheBuster = '?v=20261110_2';
 
+    // 기존 hon-ca-yeu 경로 완전 제거 -> cuoi-nhau-di만 탐색
     const defaultMp3Candidates = [
-      './assets/cuoi-nhau-di.mp3',
-      './cuoi-nhau-di.mp3'
-      './assets/bgm.mp3',
-      './bgm.mp3'
+      './assets/cuoi-nhau-di.mp3' + cacheBuster,
+      './cuoi-nhau-di.mp3' + cacheBuster,
+      './assets/cuoi-nhau-di.mp3.mp3' + cacheBuster,
+      './cuoi-nhau-di.mp3.mp3' + cacheBuster,
+      './assets/Cuoi Nhau Di.mp3' + cacheBuster,
+      './Cuoi Nhau Di.mp3' + cacheBuster,
+      './assets/Cuoi-Nhau-Di.mp3' + cacheBuster,
+      './Cuoi-Nhau-Di.mp3' + cacheBuster,
+      './assets/Cưới Nhau Đi.mp3' + cacheBuster,
+      './Cưới Nhau Đi.mp3' + cacheBuster
     ];
 
     let mp3Candidates = [...defaultMp3Candidates];
@@ -578,13 +583,10 @@
         playPromise.then(() => {
           isPlayingBgm = true;
           bgmIcon.classList.remove('spin-paused');
-        }).catch(() => {
-          // 모바일 브라우저 자동재생 차단 시 첫 터치 때 즉시 재생
-        });
+        }).catch(() => {});
       }
     }
 
-    // 모바일 브라우저(카카오톡 인앱 등)에서 화면 어디든 첫 터치/스크롤 시 음악 자동 시작
     function unlockAudioOnFirstTouch() {
       if (!userPausedBgm && !isPlayingBgm) {
         audioEl.play().then(() => {
@@ -609,7 +611,7 @@
       if (audioEl.paused) {
         userPausedBgm = false;
         audioEl.play().catch(() => {
-          showToast('음악 파일(hon-ca-yeu.mp3)을 확인해 주세요.');
+          showToast('음악 파일(cuoi-nhau-di.mp3)을 확인해 주세요.');
         });
       } else {
         userPausedBgm = true;
@@ -618,7 +620,7 @@
     }
 
     // =========================================================================
-    // 2. 웨딩 사진 & 영상 자동 스캔 및 갤러리 구성 (충돌 방지 단일 로더)
+    // 2. 웨딩 사진 & 영상 자동 스캔 및 갤러리 구성
     // =========================================================================
     const heroImgEl = document.getElementById('hero-img');
     const heroNoticeEl = document.getElementById('hero-empty-notice');
@@ -627,7 +629,7 @@
     const clipPhEl = document.getElementById('clip1-placeholder');
     const galleryGrid = document.getElementById('gallery-grid');
 
-    let galleryPhotos = []; // 라이트박스 좌우 이동용 전체 사진 배열
+    let galleryPhotos = [];
     let currentLightboxIndex = 0;
 
     function setHeroImage(url) {
@@ -664,15 +666,14 @@
       });
     }
 
-    // GitHub API로 저장소(루트 및 assets 폴더)의 모든 이미지/영상/오디오 파일을 정확히 불러옴
     async function initializeMediaFromGitHub() {
       const apiBase = 'https://api.github.com/repos/hongchanghwan80/wedding/contents';
       let repoFiles = [];
 
       try {
         const [assetsRes, rootRes] = await Promise.allSettled([
-          fetch(apiBase + '/assets'),
-          fetch(apiBase)
+          fetch(apiBase + '/assets?t=' + Date.now()),
+          fetch(apiBase + '?t=' + Date.now())
         ]);
 
         if (assetsRes.status === 'fulfilled' && assetsRes.value.ok) {
@@ -682,7 +683,7 @@
               if (item.type === 'file') {
                 repoFiles.push({
                   name: item.name,
-                  url: './assets/' + encodeURIComponent(item.name)
+                  url: './assets/' + encodeURIComponent(item.name) + cacheBuster
                 });
               }
             });
@@ -694,26 +695,25 @@
           if (Array.isArray(list)) {
             list.forEach(item => {
               if (item.type === 'file') {
-                // assets에 같은 파일명이 없을 때만 추가 (중복 방지)
                 if (!repoFiles.some(f => f.name === item.name)) {
                   repoFiles.push({
                     name: item.name,
-                    url: './' + encodeURIComponent(item.name)
+                    url: './' + encodeURIComponent(item.name) + cacheBuster
                   });
                 }
               }
             });
           }
         }
-      } catch (err) {
-        // 오프라인이거나 API 호출 실패 시 폴백 실행
-      }
+      } catch (err) {}
 
-      // 1) 오디오 파일 자동 연결
-      const audioFiles = repoFiles.filter(f => /\.(mp3|m4a|wav|ogg)$/i.test(f.name));
+      // 1) 오디오 파일 자동 연결 (cuoi-nhau-di 최우선 선택, hon-ca-yeu 배제)
+      const audioFiles = repoFiles.filter(
+        f => /\.(mp3|m4a|wav|ogg)$/i.test(f.name) && !/hon.?ca.?yeu/i.test(f.name)
+      );
       if (audioFiles.length > 0) {
         const preferredAudio =
-          audioFiles.find(f => /hon|yeu|bgm/i.test(f.name)) || audioFiles[0];
+          audioFiles.find(f => /cuoi|nhau|di/i.test(f.name)) || audioFiles[0];
         mp3Candidates = [preferredAudio.url, ...defaultMp3Candidates];
         mp3Index = 0;
         loadNextMp3Candidate();
@@ -731,16 +731,14 @@
         probeFallbackVideo();
       }
 
-      // 3) 웨딩 사진 파일 자동 연결 (종이 청첩장 스캔본 제외)
+      // 3) 웨딩 사진 파일 자동 연결
       const imageFiles = repoFiles.filter(
         f => /\.(jpe?g|png|webp)$/i.test(f.name) && !/청첩장/i.test(f.name)
       );
 
       if (imageFiles.length > 0) {
-        // 이름순 정렬 (photo1, photo2... 순서 유지)
         imageFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
 
-        // 메인 사진 선정 (hero -> _02 -> _03 -> photo1 -> 첫 번째 이미지 순)
         const heroFile =
           imageFiles.find(f => /^hero\./i.test(f.name)) ||
           imageFiles.find(f => /_02\.|_03\./i.test(f.name)) ||
@@ -749,11 +747,9 @@
 
         setHeroImage(heroFile.url);
 
-        // 갤러리에는 모든 웨딩 사진을 표시
         const allPhotoUrls = imageFiles.map(f => f.url);
         renderGallery(allPhotoUrls);
       } else {
-        // API에서 못 찾았거나 로컬 테스트 환경일 경우 직접 파일 경로 탐색
         probeFallbackImages();
       }
     }
@@ -789,10 +785,7 @@
         './assets/photo6.jpg', './photo6.jpg',
         './assets/photo7.jpg', './photo7.jpg',
         './assets/photo8.jpg', './photo8.jpg',
-        './assets/photo9.jpg', './photo9.jpg',
-        './assets/photo10.jpg', './photo10.jpg',
-        './assets/photo11.jpg', './photo11.jpg',
-        './assets/photo12.jpg', './photo12.jpg'
+        './assets/photo9.jpg', './photo9.jpg'
       ];
 
       let foundUrls = [];
@@ -872,7 +865,6 @@
       lightboxModal.classList.remove('flex');
     }
 
-    // 모바일 터치 좌우 스와이프 감지
     let touchStartX = 0;
     lightboxModal.addEventListener('touchstart', e => {
       touchStartX = e.changedTouches[0].screenX;
@@ -882,12 +874,11 @@
       const touchEndX = e.changedTouches[0].screenX;
       const diff = touchStartX - touchEndX;
       if (Math.abs(diff) > 40) {
-        if (diff > 0) nextPhoto(); // 왼쪽으로 밀면 다음 사진
-        else prevPhoto();          // 오른쪽으로 밀면 이전 사진
+        if (diff > 0) nextPhoto();
+        else prevPhoto();
       }
     }, { passive: true });
 
-    // PC 키보드 좌우 화살표 지원
     window.addEventListener('keydown', e => {
       if (lightboxModal.classList.contains('hidden')) return;
       if (e.key === 'ArrowLeft') prevPhoto();
@@ -911,7 +902,7 @@
       document.getElementById('dday-d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
       document.getElementById('dday-h').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
       document.getElementById('dday-m').innerText = Math.floor((diff / (1000 * 60)) % 60);
-      document.getElementById('dday-s').innerText = Math.floor((diff / 1000) % 60);
+      document.getElementById('dday-s').innerText = Math.floor((diff / (1000) % 60));
     }
     updateCountdown();
     setInterval(updateCountdown, 1000);
